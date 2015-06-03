@@ -1,23 +1,23 @@
-#cmake¹¤¾ßËùÐè°æ±¾ºÅ
+#cmakeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ±¾ï¿½ï¿½
 cmake_minimum_required(VERSION 3.0)
 
-#ÏîÄ¿Ãû³Æ
+#ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
 project(MirServer)
 
-#ÉèÖÃ¹¤³Ì°æ±¾ºÅ
+#ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ì°æ±¾ï¿½ï¿½
 set (MirServer_VERSION_MAJOR 0)
 set (MirServer_VERSION_MINOR 1)
 
-#ÅäÖÃÒ»¸öÍ·ÎÄ¼þ£¬Í¨¹ýËüÏòÔ´´úÂëÖÐ´«µÝÒ»Ð©CMakeÉèÖÃ
+#ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í·ï¿½Ä¼ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ò»Ð©CMakeï¿½ï¿½ï¿½ï¿½
 configure_file (
 "${PROJECT_SOURCE_DIR}/MirServerConfig.h.in"
 "${PROJECT_BINARY_DIR}/MirServerConfig.h"
 )
 
-# ½«¶þ½øÖÆÎÄ¼þÊ÷Ìí¼Óµ½°üº¬ÎÄ¼þµÄËÑË÷Â·¾¶ÖÐ£¬ÕâÑùÎÒÃÇ¿ÉÒÔÕÒµ½ConquerorConfig.h
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½Òµï¿½ConquerorConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
 
-#¹¤³Ì°²×°Ä¿Â¼
+#ï¿½ï¿½ï¿½Ì°ï¿½×°Ä¿Â¼
 set(CMAKE_INSTALL_PREFIX ../mir_server_install)
 
 if (WIN32)
@@ -27,7 +27,14 @@ if (WIN32)
   endif ()
 endif ()
 
-#Ìí¼Ó×Ó¹¤³ÌÄ¿Â¼
+if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall -Wno-unused-variable -static")
+else( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+        set(CMAKE_BUILD_TYPE "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -static")
+endif( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+
+#ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½Ä¿Â¼
 add_subdirectory(Common)
 add_subdirectory(GateServer)
 add_subdirectory(GameServer)

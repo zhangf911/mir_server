@@ -3,7 +3,7 @@ if (WIN32)
   add_definitions (-D_WIN32_WINNT=${PROJECT_WINVER})
 endif ()
 
-include_directories("${PROJECT_BINARY_DIR}/../../boost_1_58_0")
+include_directories("${PROJECT_SOURCE_DIR}/../../boost_1_58_0")
 
 file (GLOB_RECURSE LIBRARY_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file (GLOB_RECURSE LIBRARY_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
