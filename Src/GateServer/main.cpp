@@ -27,7 +27,7 @@ int main()
 		gate_base->send(main_loop, "init");
 		gate_base->recv("ready");
 
-		// µÈ´ýÍË³öÐÅºÅ
+		// ç­‰å¾…é€€å‡ºä¿¡å·
 		gate_base->recv(gce::exit);
 	}
 	catch (std::exception& ex)
