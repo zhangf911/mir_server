@@ -1,5 +1,5 @@
 mkdir Build
 cd Build
-cmake ../Src -G "Visual Studio 12 2013"
+cmake ../Src_32 -G "Visual Studio 12 2013"
 
 pause
