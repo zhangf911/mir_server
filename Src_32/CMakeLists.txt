@@ -1,4 +1,4 @@
-#cmake��������汾��
+﻿#cmake��������汾��
 cmake_minimum_required(VERSION 3.0)
 
 #��Ŀ����
@@ -33,6 +33,13 @@ else( CMAKE_BUILD_TYPE STREQUAL "Debug" )
         set(CMAKE_BUILD_TYPE "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -static")
 endif( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+
+if (WIN32)
+  # Set >= vc10 SAFESEH to NO
+  if (${CMAKE_GENERATOR} MATCHES "Visual Studio 1*")
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+  endif ()
+endif()
 
 #����ӹ���Ŀ¼
 add_subdirectory(Common)
