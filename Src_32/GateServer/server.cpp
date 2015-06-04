@@ -33,8 +33,6 @@ void gce_server::start(gce::stackful_actor actor)
 		//boost::shared_ptr<tcp_resolver_t::iterator> eitr;
 		//actor->match(gce::asio::tcp::as_resolve).recv(ec, eitr);
 		//GCE_VERIFY(!ec).except(ec);
-		//std::cout << ec.message() << std::endl;
-		//std::cout << ec.value() << std::endl;
 
 		//gce::asio::tcp::acceptor acpr(actor);
 		//boost::asio::ip::tcp::endpoint ep = **eitr;
@@ -91,7 +89,6 @@ void gce_server::start(gce::stackful_actor actor)
 	catch (std::exception& ex)
 	{
 		GCE_ERROR(lg) << ex.what();
-		std::cout << ex.what();
 	}
 }
 
@@ -108,11 +105,11 @@ void gce_server::run(gce::stackful_actor actor)
 
 		GCE_INFO(lg) << "main loop is ready\n";
 
-		while (true)
-		{
-			std::chrono::milliseconds dura(40);
-			std::this_thread::sleep_for(dura);
-		}
+		//while (true)
+		//{
+		//	std::chrono::milliseconds dura(1000);
+		//	std::this_thread::sleep_for(dura);
+		//}
 	}
 	catch (std::exception& ex)
 	{
