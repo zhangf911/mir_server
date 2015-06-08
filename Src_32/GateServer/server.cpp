@@ -1,5 +1,7 @@
 #include "server.h"
 #include <thread>
+#include "mir_proto.adl.h"
+#include "opcodes.pb.h"
 
 typedef boost::asio::ip::tcp::socket tcp_socket_t;
 typedef boost::asio::ip::tcp::resolver tcp_resolver_t;
@@ -26,16 +28,6 @@ void gce_server::start(gce::stackful_actor actor)
 
 		size_t scount = 0;
 		gce::errcode_t ec;
-
-		//gce::asio::tcp::resolver rsv(actor);
-		//tcp_resolver_t::query qry("0.0.0.0", "12345");
-		//rsv.async_resolve(qry);
-		//boost::shared_ptr<tcp_resolver_t::iterator> eitr;
-		//actor->match(gce::asio::tcp::as_resolve).recv(ec, eitr);
-		//GCE_VERIFY(!ec).except(ec);
-
-		//gce::asio::tcp::acceptor acpr(actor);
-		//boost::asio::ip::tcp::endpoint ep = **eitr;
 
 		boost::asio::ip::address addr;
 		addr.from_string("0.0.0.0");
@@ -79,7 +71,7 @@ void gce_server::start(gce::stackful_actor actor)
 			msg >> ec;
 			if (!ec)
 			{
-				std::cout << "new client" << endl;
+				std::cout << "new client, current cout :" << (scount + 1) << endl;
 				gce::aid_t cln = spawn(actor, boost::bind(&gce_server::new_session, this, _arg1), gce::monitored);
 				actor->send(cln, "init", skt);
 				++scount;
@@ -132,12 +124,12 @@ void gce_server::new_session(gce::stackful_actor actor)
 
 		gce::asio::tcp::socket skt(actor, tcp_skt);
 
-		amsg::zero_copy_buffer zbuf;
+		adata::zero_copy_buffer zbuf;
 		gce::byte_t read_buff[256];
 		std::deque<gce::bytes_t> write_queue;
 
-		echo_header hdr;
-		size_t const hdr_len = amsg::size_of(hdr);
+		mir::msg_header hdr;
+		size_t const hdr_len = adata::size_of(hdr);
 		gce::match_t const recv_header = gce::atom("header");
 		gce::match_t const recv_body = gce::atom("body");
 
@@ -152,32 +144,40 @@ void gce_server::new_session(gce::stackful_actor actor)
 			if (type == recv_header)
 			{
 				zbuf.set_read(read_buff, hdr_len);
-				amsg::read(zbuf, hdr);
+				adata::read(zbuf, hdr);
 				if (zbuf.bad())
 				{
 					break;
 				}
+				
+				GCE_INFO(lg) << "message :" << hdr.type << " body size : " << hdr.size << "\n";
 
-				skt.async_read(boost::asio::buffer(read_buff + hdr_len, hdr.size_), gce::message(recv_body));
+				skt.async_read(boost::asio::buffer(read_buff + hdr_len, hdr.size), gce::message(recv_body));
 			}
 			else if (type == recv_body)
 			{
-				zbuf.set_read(read_buff + hdr_len, hdr.size_);
+				zbuf.set_read(read_buff + hdr_len, hdr.size);
 				std::string str;
-				amsg::read(zbuf, str);
+				mir::echo_message echo_message;
+
+				adata::read(zbuf, echo_message);
+				str = echo_message.msg;
 				if (zbuf.bad())
 				{
 					break;
 				}
 
-				GCE_INFO(lg) << "server recved echo: " << str;
+				msg_login login;
+				login.ParseFromString(str);
+
+				GCE_INFO(lg) << "server recved echo: " << login.account();
 				if (str == "bye")
 				{
 					break;
 				}
 
 				bool write_in_progress = !write_queue.empty();
-				write_queue.push_back(gce::bytes_t(read_buff, hdr_len + hdr.size_));
+				write_queue.push_back(gce::bytes_t(read_buff, hdr_len + hdr.size));
 				if (!write_in_progress)
 				{
 					gce::bytes_t const& echo = write_queue.front();

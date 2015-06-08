@@ -2,6 +2,7 @@
 #include <gce/actor/all.hpp>
 #include <gce/asio/all.hpp>
 #include "server.h"
+#include "gce_tcp_server.h"
 
 int main()
 {

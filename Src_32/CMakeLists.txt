@@ -27,12 +27,17 @@ if (WIN32)
   endif ()
 endif ()
 
-if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+if (WIN32)
+
+else()
+  if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall -Wno-unused-variable -static")
-else( CMAKE_BUILD_TYPE STREQUAL "Debug" )
-        set(CMAKE_BUILD_TYPE "Release")
+  else( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+    set(CMAKE_BUILD_TYPE "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -static")
 endif( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+
+endif()
 
 if (WIN32)
   # Set >= vc10 SAFESEH to NO
