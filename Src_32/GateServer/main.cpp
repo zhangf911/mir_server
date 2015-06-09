@@ -16,14 +16,14 @@ int main()
 		gce::context gce_context(attrs);
 		gce::threaded_actor gate_base = gce::spawn(gce_context);
 
-		gce_server server;
-		gce::aid_t svr = spawn(gate_base, boost::bind(&gce_server::start, &server, _arg1), gce::monitored);
+		gce_tcp_server server;
+		gce::aid_t svr = spawn(gate_base, boost::bind(&gce_tcp_server::start, &server, _arg1), gce::monitored);
 
 		gate_base->send(svr, "init");
 
 		gate_base->recv("ready");
 
-		gce::aid_t main_loop = spawn(gate_base, boost::bind(&gce_server::run, &server, _arg1), gce::monitored);
+		gce::aid_t main_loop = spawn(gate_base, boost::bind(&gce_tcp_server::run, &server, _arg1), gce::monitored);
 
 		gate_base->send(main_loop, "init");
 		gate_base->recv("ready");

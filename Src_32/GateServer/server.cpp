@@ -6,8 +6,6 @@
 typedef boost::asio::ip::tcp::socket tcp_socket_t;
 typedef boost::asio::ip::tcp::resolver tcp_resolver_t;
 
-
-
 gce_server::gce_server()
 {
 
@@ -159,7 +157,6 @@ void gce_server::new_session(gce::stackful_actor actor)
 				zbuf.set_read(read_buff + hdr_len, hdr.size);
 				std::string str;
 				mir::echo_message echo_message;
-
 				adata::read(zbuf, echo_message);
 				str = echo_message.msg;
 				if (zbuf.bad())
