@@ -32,70 +32,70 @@ public:
 	~NetConnection();
 
 public:
-	// ┐═╗з╢╦IP
+	// я┐╜═╗я┐╜я┐╜я┐╜IP
 	const char* GetIP();
 public:
-	// ┐к╞Ї═°┬ч╜╙╩╒
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	void Start();
 
-	// ╕№╨┬
+	// я┐╜я┐╜я┐╜я┐╜
 	void Update();
 
-	// ╣╪▒╒═°┬ч┴м╜╙
+	// я┐╜╪▒я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	void Stop();
 
-	//бб╜Ў╢╧┐к┴м╜╙
+	//я┐╜я┐╜я┐╜я┐╜я┐╜╧┐я┐╜я┐╜я┐╜я┐╜я┐╜
 	void Close();
 
-	// ╗ё╚б╥╤╩╒╧√╧в╢╙┴╨
+	// я┐╜я┐╜╚бя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╧вя┐╜я┐╜я┐╜я┐╜
 	void GetReceivedPacketDeque(ReceivedPacketDeque& OUTpacketDeque);
 
-	// ╖в╦═╧√╧в
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╧в
 	void Send(SendPacket& INsendPacket);
 public:
-	// ╗ё╚б╥╤╩╒╚б═°┬ч░№╩¤┴┐
+	// я┐╜я┐╜╚бя┐╜я┐╜я┐╜я┐╜╚бя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	UInt32 GetReceivedPacketCount(){return m_receivePacketCount;}
 
-	// ╗ё╚б┴м╜╙ID
+	// я┐╜я┐╜╚бя┐╜я┐╜я┐╜я┐╜ID
 	UInt32 GetConnectionID(){return m_connectionID;};
 
 private:
-	// ═°┬ч░№═╖╢┴╚б
+	// я┐╜я┐╜я┐╜я┐╜я┐╜═╖я┐╜я┐╜╚б
 	void DoReadPacketHead();
 
-	// ═°┬ч░№╠х╢┴╚б
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╚б
 	void DoReadPacketBody();
 
-	// ╖в╦══°┬ч╧√╧в
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╧в
 	void DoWrite();
 
-	// ░№═╖╢┴╚б═ъ│╔┤ж└э
+	// я┐╜я┐╜═╖я┐╜я┐╜╚бя┐╜я┐╜╔┤я┐╜я┐╜я┐╜
 	void OnReadPacketHeaderComplete(boost::system::error_code ec);
 
-	// ░№╠х╢┴╚б═ъ│╔┤ж└э
+	// я┐╜я┐╜я┐╜я┐╜я┐╜╚бя┐╜я┐╜╔┤я┐╜я┐╜я┐╜
 	void OnReadPacketBodyComplete(boost::system::error_code ec);
 private:
-	// ┴м╜╙▒р║┼
+	// я┐╜я┐╜я┐╜╙▒я┐╜я┐╜
 	UInt32 m_connectionID;
-	// ╠╫╜╙╫╓
+	// я┐╜╫╜я┐╜я┐╜я┐╜
 	SocketPtr m_socket;
-	// ╜╙╩╒░№
+	// я┐╜я┐╜я┐╜╒░я┐╜
 	ReceivedPacket m_receivePacket;
-	// ╜╙╩╒┤є░№
+	// я┐╜я┐╜я┐╜╒┤я┐╜я┐╜
 	ReceivedPacket m_receiveBigPacket;
-	// ╥╤╩╒╧√╧в░№╢╙┴╨
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╧вя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	ReceivedPacketDeque m_receivedPacketDeque;
-	// ╥╤╩╒╧√╧в░№╗е│т╦°
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╧вя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	std::mutex m_receiveDequeMutex;
-	// ╖в╦═░№╢╙┴╨
+	// я┐╜я┐╜я┐╜═░я┐╜я┐╜я┐╜я┐╜я┐╜
 	SendPacketDeque m_sendPacketDeque;
-	// ╖в╦═╢╙┴╨╗е│т╦°
+	// я┐╜я┐╜я┐╜═╢я┐╜я┐╜╨╗я┐╜я┐╜я┐╜я┐╜я┐╜
 	std::mutex m_sendDequeMutex;
-	// ╖■╬ё╞ў
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜
 	NetServer& m_netServer;
-	// ╜╙╩╒╗║┤ц
+	// я┐╜я┐╜я┐╜╒╗я┐╜я┐╜я┐╜
 	// boost::aligned_storage<1024 * 4> m_receiveBuffer;
-	// ╜╙╩╒╩¤╛▌╢┴╚б╬╗╓├
+	// я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜▌╢я┐╜╚б╬╗я┐╜я┐╜
 	UInt32 m_receivePacketCount;
 	
 };
