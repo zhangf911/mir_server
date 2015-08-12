@@ -1,0 +1,8 @@
+#ifndef CONQUEROR_CONFIG_HPP
+#define CONQUEROR_CONFIG_HPP
+
+// 与tutorial相关的配置好的选项与设置；
+#define Conqueror_VERSION_MAJOR @Conqueror_VERSION_MAJOR@
+#define Conqueror_VERSION_MINOR @Conqueror_VERSION_MINOR@
+
+#endif
